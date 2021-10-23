@@ -39,7 +39,7 @@ jobs:
           - os: windows-latest
             TARGET: windows
             CMD_BUILD: pyinstaller -F -n GeneratPassword main.py
-            OUT_FILE_NAME: GeneratePassword.exe
+            OUT_FILE_NAME: GeneratPassword.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
 
     steps:
