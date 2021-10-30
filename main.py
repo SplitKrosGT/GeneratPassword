@@ -68,7 +68,7 @@ layout.update(
         ),
         box=box.ROUNDED,
         title="Информация",
-        subtitle="Приложение версии 0.0.4",
+        subtitle="Приложение версии 0.0.5",
         border_style="blue",
     )
 )
