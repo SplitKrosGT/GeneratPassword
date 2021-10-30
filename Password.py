@@ -12,7 +12,7 @@ class Password:
 
     def __init__(self):
         self.password = None
-        self.count_symbol = self.COUNT_SYMBOLS
+        self.count_symbols = self.COUNT_SYMBOLS
         self.count_variant = 0
 
     def generation(self, count_symbols):
@@ -31,7 +31,7 @@ class Password:
         for i in range(0, count_symbols):
             password = password + f'{self.random_symbols()}'
 
-        self.password = self.password
+        self.password = password
 
     # Функция случайных символов.
     def random_symbols(self):

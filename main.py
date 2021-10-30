@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from rich import box, print
+from rich import print, box
 from rich.console import Console, Group
 from rich.layout import Layout
 from rich.panel import Panel
@@ -44,7 +44,7 @@ console = Console()
 layout = Layout(name="info")
 
 print_count_array_symbols = Text.from_markup(
-    f'Количество доступных символов: {len(password.get_array_symbols)}',
+    f'Количество доступных символов: {len(password.get_array_symbols())}',
     style="bold red" 
 )
 
@@ -54,7 +54,7 @@ print_count_variant = Text.from_markup(
 )
 
 print_password = Text.from_markup(
-    f'ваш подобраный пароль: {password.password}',
+    f'сгенерированный пароль: {password.password}',
     style="bold blue" 
 )
 
@@ -65,7 +65,7 @@ layout.update(
             print_count_array_symbols,
             print_count_variant,
             print_password
-        )
+        ),
         box=box.ROUNDED,
         title="Информация",
         subtitle="Приложение версии 0.0.4",
