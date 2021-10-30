@@ -1,63 +1,86 @@
-import random
-
 import datetime
-
 import os
 
-# Набор доступных символов.
-ARRAY_SYMBOLS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'r', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                 '!', '@', '#', '$', '%', '&', '*', '?', '/', '.', ',', '\\', ';', ':', '|', '_', '-']
+from rich import box, print
+from rich.console import Console, Group
+from rich.layout import Layout
+from rich.panel import Panel
+from rich.text import Text
 
-# Получаем количесмтво символов в пароле.
-CONST_COUNT_SYMBOLS = 4
-custom_count_symbols = int(input('ведите количество символов в пароле:'))
-if custom_count_symbols > 0:
-    count_symbols = custom_count_symbols
+from Password import Password
+
+
+def file_name():
+    text_datetime = f'{datetime.datetime.now()}'
+    symbol_replace = ['!', '@', '#', '$', '%', '&', '*', '?', '/', '.', ',', '\\', ';', ':', '|', '_', '-', ' ']
+    fn = ''
+    for s in text_datetime:
+        is_write = True
+        for sr in symbol_replace:
+            if s == sr:
+                fn += '_'
+                is_write = False
+        if is_write:
+            fn += s
+    return fn
+
+password = Password()
+
+count_symbols = input('ведите количество символов в пароле:')
+
+if count_symbols.isdigit():
+    password.generation(int(count_symbols))
 else:
-    count_symbols = CONST_COUNT_SYMBOLS
+    password.generation(None)
 
 
-count_variant = (len(ARRAY_SYMBOLS) ** count_symbols)
+# print(f'Приложение версии 0.0.4')
+# print(f'Количество доступных символов: {len(password.get_array_symbols)}')
+# print(f'Количество возможных вариантов: {password.count_variant}')
 
-# Функция случайных символов.
-def random_symbols():
-    return ARRAY_SYMBOLS[
-        random.randint(0, len(ARRAY_SYMBOLS) - 1)
-    ]
+# print(f'ваш подобраный пароль: {password.password}')
 
-print(f'Приложение версии 0.0.1')
-print(f'Количество доступных символов: {len(ARRAY_SYMBOLS)}')
-print(f'Количество возможных вариантов: {count_variant}')
+console = Console()
+layout = Layout(name="info")
 
-# Массив символов
-password_array = [i for i in range(0, count_symbols)]
+print_count_array_symbols = Text.from_markup(
+    f'Количество доступных символов: {len(password.get_array_symbols)}',
+    style="bold red" 
+)
 
-password = ''
+print_count_variant = Text.from_markup(
+    f'Количество возможных вариантов: {password.count_variant}',
+    style="bold yellow" 
+)
 
-for i in password_array:
-    password = password + f'{random_symbols()}'
+print_password = Text.from_markup(
+    f'ваш подобраный пароль: {password.password}',
+    style="bold blue" 
+)
 
-print(f'ваш подобраный пароль: {password}')
+    
+layout.update(
+    Panel(
+        Group(
+            print_count_array_symbols,
+            print_count_variant,
+            print_password
+        )
+        box=box.ROUNDED,
+        title="Информация",
+        subtitle="Приложение версии 0.0.4",
+        border_style="blue",
+    )
+)
 
-text_datetime = f'{datetime.datetime.now()}'
-symbol_replace = ['!', '@', '#', '$', '%', '&', '*', '?', '/', '.', ',', '\\', ';', ':', '|', '_', '-', ' ']
-file_name = ''
-for s in text_datetime:
-    is_write = True
-    for sr in symbol_replace:
-        if s == sr:
-            file_name += '_'
-            is_write = False
-    if is_write:
-        file_name += s
+console.print(layout)
+
 
 if not os.path.exists('password'):
     os.mkdir('password')
 
 # Запись пароля в файл.
-with open(f'password/{file_name}.txt', 'a') as password_string:
-    password_string.write('{}\n'.format(f'{password}'))
+with open(f'password/{file_name()}.txt', 'a') as password_string:
+    password_string.write('{}\n'.format(f'{password.password}'))
 
 input('нажмите Enter, чтобы выйти.')
