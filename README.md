@@ -30,3 +30,6 @@ pip install Flask
 ```bash
 pip install rich
 ```
+```bash
+pip install -r requirments.txt
+```

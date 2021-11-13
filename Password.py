@@ -43,6 +43,18 @@ class Password:
         return self.ARRAY_SYMBOLS[
             random.randint(0, len(self.ARRAY_SYMBOLS) - 1)
     ]
+    # Получить символ
+    def get_symbol(self, number):
+        return self.ARRAY_SYMBOLS[number]
+
+        # Получить символы
+    def get_symbols(self, array):
+        password = ""
+        array = [i for i in range(0, array)]
+        for i in array:
+            password = password + f'{self.get_symbol(i)}'
+        return password
+
 
     def get_array_symbols(self):
         return self.ARRAY_SYMBOLS
